@@ -1,0 +1,126 @@
+<div>
+</div>
+
+<div class="flex">
+
+  <%= render InvoicerHtml.StatementView, "index.html",
+      conn: @socket,
+      number: @statement_params.number,
+      recipient_name: @statement_params.recipient_name,
+      recipient_address: @statement_params.recipient_address,
+      date: @statement_params.date,
+      services: @statement_params.services,
+      charges: @statement_params.charges,
+      currency_symbol: @statement_params.currency_symbol
+      %>
+
+  <%=  f = form_for @changeset, "#", phx_change: "change", phx_submit: "submit", class: "space-y-2 divide-y divide-gray-200" %>
+
+  <div class="space-y-2 divide-y divide-gray-200 sm:space-y-2">
+    <div class="space-y-6 sm:space-y-2">
+      <%= @print_result %>
+    </div>
+
+    <div class="flex justify-start">
+      <%= submit "Generate PDF at #{Application.get_env(:invoicer_pdf, :output_dir_name)}/#{Ecto.Changeset.get_field(@changeset, :output_name)}.pdf",
+          phx_disable_with: "Generating...",
+          class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+
+      <div>
+        <%=  label f, :date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  date_select f, :date %>
+        <%=  error_tag f, :date %>
+      </div>
+
+    <div class="grid grid-cols-2 space-y-1 sm:space-y-1">
+
+      <div>
+        <%=  label f, :output_name, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <%=  text_input f, :output_name %>
+        <%=  error_tag f, :output_name %>
+      </div>
+
+      <div>
+        <%=  label f, :number, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  number_input f, :number %>
+        <%=  error_tag f, :number %>
+      </div>
+
+      <div>
+        <%=  label f, :recipient_name, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <%=  text_input f, :recipient_name %>
+        <%=  error_tag f, :recipient_name %>
+      </div>
+
+      <div>
+        <%=  label f, :recipient_address, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <%=  text_input f, :recipient_address %>
+        <%=  error_tag f, :recipient_address %>
+      </div>
+
+      <div>
+        <%=  label f, :locale, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  select f, :locale, InvoicerPdf.Holidays.locales_for_select() %>
+        <%=  error_tag f, :locale %>
+      </div>
+
+      <div>
+        <%=  label f, :currency_symbol, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  select f, :currency_symbol, ["€", "$", "£"] %>
+        <%=  error_tag f, :currency_symbol %>
+      </div>
+
+      <div>
+        <%=  label f, :days_rate, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  number_input f, :days_rate, step: 0.01, min: 0 %>
+        <%=  error_tag f, :days_rate %>
+      </div>
+
+      <div>
+        <%=  label f, :days_off_count, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  number_input f, :days_off_count, class: "text-sm" %>
+        <%=  error_tag f, :days_off_count %>
+      </div>
+
+      <div>
+        <%=  label f, :start_date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  date_select f, :start_date %>
+        <%=  error_tag f, :start_date %>
+      </div>
+
+      <div>
+        <%=  label f, :end_date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  date_select f, :end_date %>
+        <%=  error_tag f, :end_date %>
+      </div>
+
+      <div>
+        <%=  label f, :holidays, "Holidays Taken", class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%= for possible_holiday <- Ecto.Changeset.get_field(@changeset, :possible_holidays) do %>
+            <div>
+              <input id="form_holiday-<%= possible_holiday.date %>"
+                     name="form[holiday-<%= possible_holiday.date %>]"
+                     type="checkbox"
+                     value="true"
+                     <%= if possible_holiday in Ecto.Changeset.get_field(@changeset, :holidays), do: "checked" %>
+                     >
+              <label for="form_holiday-<%= possible_holiday.date %>"><%= possible_holiday.name %> <%= possible_holiday.date.year %></label>
+            </div>
+            <% end %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="float-bottom pt-20 truncate w-full">
+    <a target="_blank" rel="noopener noreferrer" href="<%= @statement_url %>" class="text-indigo-500 underline truncate">
+      raw link
+    </a>
+  </div>
+
+</div>
+
+</form>
+
+</div>

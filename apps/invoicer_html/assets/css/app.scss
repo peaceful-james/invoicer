@@ -1,0 +1,18 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* This file is for your main application css. */
+/* @import "./phoenix.css"; */
+
+/* https://stackoverflow.com/questions/3341485/how-to-make-a-html-page-in-a4-paper-size-pages */
+/* @media print { */
+/*     body{ */
+/*         width: 21cm; */
+/*         height: 29.7cm; */
+/*         margin: 30mm 45mm 30mm 45mm; */
+/*         /\* change the margins as you want them to be. *\/ */
+/*     } */
+/* } */

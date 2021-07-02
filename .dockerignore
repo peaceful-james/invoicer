@@ -1,0 +1,20 @@
+.dockerignore
+
+# Git data
+.git
+
+# Elixir build artifacts
+# Don't ignore the build directory for faster builds
+!_build
+# Don't ignore the directory where our releases get built
+!_build/prod/rel
+
+# stop ignoring deps for :dev env - would need to change for :prod docker releases
+# deps
+
+Dockerfile
+
+.elixir_ls
+.gitignore
+.tool-versions
+README.md

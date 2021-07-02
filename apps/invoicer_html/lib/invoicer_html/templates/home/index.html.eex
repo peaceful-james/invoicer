@@ -1,0 +1,80 @@
+<%=  form_for :new_invoice, Routes.live_path(@conn, :create), [class: "space-y-2 divide-y divide-gray-200"], fn f -> %>
+    <div class="space-y-2 divide-y divide-gray-200 sm:space-y-2">
+        <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-2">
+            <div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Generate PDF
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Fill in details to generate a pdf
+                </p>
+            </div>
+
+
+            <div class="space-y-1 sm:space-y-1">
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :output_name, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  text_input f, :output_name, value: @output_name %>
+                        <%=  error_tag f, :output_name %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :number, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  number_input f, :number, value: @number %>
+                        <%=  error_tag f, :number %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :start_date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  date_select f, :start_date, value: @start_date %>
+                        <%=  error_tag f, :start_date %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :end_date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  date_select f, :end_date, value: @end_date %>
+                        <%=  error_tag f, :end_date %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :days_off_count, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  number_input f, :days_off_count, value: @days_off_count %>
+                        <%=  error_tag f, :days_off_count %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :days_rate, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  number_input f, :days_rate, step: 0.01, min: 0, value: @days_rate %>
+                        <%=  error_tag f, :days_rate %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :currency_symbol, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  select f, :currency_symbol, ["€", "$", "£"], value: @currency_symbol %>
+                        <%=  error_tag f, :currency_symbol %>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="pt-5">
+        <div class="flex justify-start">
+            <%= submit "Generate Invoice", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+    </div>
+<% end %>

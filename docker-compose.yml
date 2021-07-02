@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  invoicer:
+    image: invoicer:local
+    stdin_open: true
+    tty: true
+    ports:
+      - "4000:4000"
+    security_opt:
+      - seccomp:./chrome.json
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./generated_pdfs:/home/docker/invoicer/generated_pdfs/:rw
+      - ./config:/home/docker/invoicer/config:ro
+      - ./apps/invoicer_pdf/lib:/home/docker/invoicer/apps/invoicer_pdf/lib:ro
+      - ./apps/invoicer_pdf/test:/home/docker/invoicer/apps/invoicer_pdf/test:ro
+      - ./apps/invoicer_html/lib:/home/docker/invoicer/apps/invoicer_html/lib:ro
+      - ./apps/invoicer_html/test:/home/docker/invoicer/apps/invoicer_html/test:ro
+      - ./apps/invoicer_html/assets/tailwind.config.js:/home/docker/invoicer/apps/invoicer_html/assets/tailwind.config.js:ro
+      - ./apps/invoicer_html/assets/static/images:/home/docker/invoicer/apps/invoicer_html/assets/static/images:ro

@@ -43,16 +43,19 @@ defmodule InvoicerPdf.Form do
   def new, do: Enum.reduce(@fields, %__MODULE__{}, &Map.put(&2, &1, default(&1)))
 
   defp default(:output_name), do: "test"
-  defp default(:locale), do: :ie
+  defp default(:locale), do: Application.get_env(:invoicer_pdf, :default_locale)
   defp default(:number), do: 1
-  defp default(:recipient_name), do: "Client name"
-  defp default(:recipient_address), do: "Client address"
+  defp default(:recipient_name), do: Application.get_env(:invoicer_pdf, :default_recipient_name)
+
+  defp default(:recipient_address),
+    do: Application.get_env(:invoicer_pdf, :default_recipient_address)
+
   defp default(:date), do: Timex.shift(Date.utc_today(), days: 0)
   defp default(:start_date), do: Timex.shift(Date.utc_today(), days: -30)
   defp default(:end_date), do: Timex.shift(Date.utc_today(), days: 0)
-  defp default(:days_rate), do: 100.0
+  defp default(:days_rate), do: Application.get_env(:invoicer_pdf, :default_days_rate)
   defp default(:days_off_count), do: 0
-  defp default(:currency_symbol), do: "€"
+  defp default(:currency_symbol), do: Application.get_env(:invoicer_pdf, :default_currency_symbol)
   defp default(:possible_holidays), do: default(:holidays)
 
   defp default(:holidays),

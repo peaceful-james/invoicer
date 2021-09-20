@@ -85,6 +85,4 @@ actually hits the `:invoicer_html` endpoint to get the invoice HTML which is the
 
 ### TODOs and dreams
 - simplify the form/statement duplication. Try to DRY and centralize schema.
-- add autoname like "client-name-000001-july-2021"
 - add ability to "save" invoice for future use
-- add ability to autoincrement the invoice number

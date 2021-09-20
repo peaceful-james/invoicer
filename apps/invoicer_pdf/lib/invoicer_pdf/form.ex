@@ -95,7 +95,7 @@ defmodule InvoicerPdf.Form do
 
   defp default(key, client), do: client[key]
 
-  defp default(key), do: get_in(@clients, [@default_client_key, key])
+  defp default(key), do: default(key, @clients[@default_client_key])
 
   defp safe_get_attr(changeset, attrs, field_name) do
     Map.get(attrs, to_string(field_name), safe_get_field(changeset, field_name))

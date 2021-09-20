@@ -15,11 +15,29 @@ defmodule InvoicerHtml.Home do
   end
 
   @impl true
-  def handle_event("submit", %{"form" => %{"output_name" => output_name}}, socket) do
+  def handle_event(
+        "submit",
+        %{"form" => %{"output_name" => output_name}},
+        %{assigns: %{changeset: changeset}} = socket
+      ) do
     output = InvoicerPdf.output_path(output_name)
     :ok = InvoicerPdf.print_to_pdf({:url, socket.assigns.statement_url}, output: output)
     real_output = String.replace(output, "/home/docker/invoicer/", "")
-    {:noreply, assign(socket, :print_result, "saved to #{real_output}")}
+
+    socket =
+      socket
+      |> assign(:print_result, "saved to #{real_output}")
+      |> assign(
+        :changeset,
+        changeset
+        |> Ecto.Changeset.get_field(:client_key)
+        |> InvoicerPdf.Form.new()
+        |> InvoicerPdf.Form.changeset()
+      )
+      |> assign_statement_params()
+      |> assign_statement_url()
+
+    {:noreply, socket}
   end
 
   defp put_assigns(socket, params \\ %{}) do

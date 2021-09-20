@@ -27,3 +27,6 @@ erl_crash.dump
 
 # Custom environment variables (see runtime.exs for usage).
 .env
+
+# Custom client details
+apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex

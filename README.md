@@ -8,10 +8,12 @@ mix deps.get
 mix deps.compile
 mix compile
 cp .env.sample .env
+cp apps/invoicer_pdf/lib/invoicer_pdf/client_list.sample.ex apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex
 docker-compose build
 ```
 
 You can edit `.env` to contain your personal/company details.
+You can edit `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to contain your client(s) details.
 
 You can also provide your own custom logo:
 

@@ -83,39 +83,32 @@ set_config.(:output_dir_name, "generated_pdfs")
   :company_account_name,
   :company_bank_name,
   :company_iban,
-  :company_bic,
-  :default_recipient_name,
-  :default_recipient_address,
-  :default_days_rate,
-  :default_locale,
-  :default_currency_symbol
+  :company_bic
 ]
 |> Enum.each(fn atom_name ->
   set_non_default_config.(atom_name)
 end)
 
-[:default_days_rate]
-|> Enum.each(fn atom_name ->
-  set_non_default_config_as.(atom_name, :float)
-end)
+accepted_locales = Holidefs.locales() |> Map.keys()
+accepted_currency_symbols = InvoicerPdf.Form |> Ecto.Enum.values(:currency_symbol)
 
-set_config_as_locale = fn atom_name ->
-  value = get_necessary_env_var_value.(atom_name)
-  accepted_values = Holidefs.locales() |> Map.keys() |> Enum.map(&to_string/1)
-
-  if value in accepted_values do
-    config(app_name, atom_name, cast_value.(value, :atom))
-  else
+InvoicerPdf.Clients.clients()
+|> Enum.each(fn {client_key, %{locale: locale, currency_symbol: currency_symbol}} ->
+  unless locale in accepted_locales do
     raise("""
-    Environment variable DEFAULT_LOCALE=#{value} is invalid.
+    Locale \"#{locale}\" for client \"#{client_key}\" is invalid.
 
-    Acceptable DEFAULT_LOCALE values are:
-    #{inspect(accepted_values, pretty: true)}
+    Acceptable locale values are:
+    #{inspect(accepted_locales, pretty: true)}
     """)
   end
-end
 
-[:default_locale]
-|> Enum.each(fn atom_name ->
-  set_config_as_locale.(atom_name)
+  unless currency_symbol in accepted_currency_symbols do
+    raise("""
+    Locale \"#{currency_symbol}\" for client \"#{client_key}\" is invalid.
+
+    Acceptable currency_symbol values are:
+    #{inspect(accepted_currency_symbols, pretty: true)}
+    """)
+  end
 end)

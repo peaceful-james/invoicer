@@ -27,25 +27,18 @@
           class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
     </div>
 
-      <div>
-        <%=  label f, :date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
-        <%=  date_select f, :date %>
-        <%=  error_tag f, :date %>
-      </div>
+    <div>
+      <%=  label f, :client_key, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+      <%=  select f, :client_key, Map.keys(InvoicerPdf.Clients.clients()) %>
+    </div>
+
+    <div>
+      <%=  label f, :date, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+      <%=  date_select f, :date %>
+      <%=  error_tag f, :date %>
+    </div>
 
     <div class="grid grid-cols-2 space-y-1 sm:space-y-1">
-
-      <div>
-        <%=  label f, :output_name, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
-        <%=  text_input f, :output_name %>
-        <%=  error_tag f, :output_name %>
-      </div>
-
-      <div>
-        <%=  label f, :number, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
-        <%=  number_input f, :number %>
-        <%=  error_tag f, :number %>
-      </div>
 
       <div>
         <%=  label f, :recipient_name, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
@@ -95,9 +88,10 @@
         <%=  error_tag f, :end_date %>
       </div>
 
-      <div>
+      <div class="col-span-2">
         <%=  label f, :holidays, "Holidays Taken", class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
-        <%= for possible_holiday <- Ecto.Changeset.get_field(@changeset, :possible_holidays) do %>
+        <div class="grid grid-cols-2 space-y-1 sm:space-y-1">
+          <%= for possible_holiday <- Ecto.Changeset.get_field(@changeset, :possible_holidays) do %>
             <div>
               <input id="form_holiday-<%= possible_holiday.date %>"
                      name="form[holiday-<%= possible_holiday.date %>]"
@@ -107,7 +101,20 @@
                      >
               <label for="form_holiday-<%= possible_holiday.date %>"><%= possible_holiday.name %> <%= possible_holiday.date.year %></label>
             </div>
-            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <div>
+        <%=  label f, :output_name, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <%=  text_input f, :output_name %>
+        <%=  error_tag f, :output_name %>
+      </div>
+
+      <div>
+        <%=  label f, :number, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  number_input f, :number %>
+        <%=  error_tag f, :number %>
       </div>
 
     </div>

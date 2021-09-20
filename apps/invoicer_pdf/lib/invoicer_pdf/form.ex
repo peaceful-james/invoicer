@@ -1,9 +1,13 @@
 defmodule InvoicerPdf.Form do
   use Ecto.Schema
   import Ecto.Changeset
-  alias InvoicerPdf.{Holidays, WorkingDays}
+  alias InvoicerPdf.{Clients, Holidays, OutputName, WorkingDays}
+
+  @clients Clients.clients()
+  @default_client_key Clients.default_client_key()
 
   @fields [
+    :client_key,
     :output_name,
     :locale,
     :number,
@@ -20,6 +24,7 @@ defmodule InvoicerPdf.Form do
   ]
 
   schema "form" do
+    field(:client_key, Ecto.Enum, values: Clients.client_keys())
     field(:output_name, :string)
     field(:locale, Ecto.Enum, values: Map.keys(Holidefs.locales()))
     field(:number, :integer)
@@ -36,30 +41,61 @@ defmodule InvoicerPdf.Form do
   end
 
   def changeset(form, attrs \\ %{}) do
-    cast(form, attrs, @fields)
+    form
+    |> cast(attrs, @fields)
+    |> then(fn changed_form ->
+      case changed_form.changes do
+        %{client_key: client_key} ->
+          new(client_key) |> cast(%{}, @fields)
+
+        _ ->
+          changed_form
+      end
+    end)
     |> cast_holidays(attrs)
   end
 
-  def new, do: Enum.reduce(@fields, %__MODULE__{}, &Map.put(&2, &1, default(&1)))
+  def new(client_key \\ @default_client_key) do
+    client = Map.get(@clients, client_key)
+    next_pdf_name_params = OutputName.next_pdf_name_params(client_key)
 
-  defp default(:output_name), do: "test"
-  defp default(:locale), do: Application.get_env(:invoicer_pdf, :default_locale)
-  defp default(:number), do: 1
-  defp default(:recipient_name), do: Application.get_env(:invoicer_pdf, :default_recipient_name)
+    Enum.reduce(
+      @fields,
+      %__MODULE__{},
+      &Map.put(&2, &1, Map.get(next_pdf_name_params, &1, default(&1, client, client_key)))
+    )
+  end
 
-  defp default(:recipient_address),
-    do: Application.get_env(:invoicer_pdf, :default_recipient_address)
+  defp default(:client_key, _client, client_key), do: client_key
+  defp default(key, client, _client_key), do: default(key, client)
+  defp default(:client_key, _client), do: @default_client_key
 
-  defp default(:date), do: Timex.shift(Date.utc_today(), days: 0)
-  defp default(:start_date), do: Timex.shift(Date.utc_today(), days: -30)
-  defp default(:end_date), do: Timex.shift(Date.utc_today(), days: 0)
-  defp default(:days_rate), do: Application.get_env(:invoicer_pdf, :default_days_rate)
-  defp default(:days_off_count), do: 0
-  defp default(:currency_symbol), do: Application.get_env(:invoicer_pdf, :default_currency_symbol)
-  defp default(:possible_holidays), do: default(:holidays)
+  defp default(:output_name, client),
+    do:
+      OutputName.output_name(%{
+        client_key: default(:client_key, client),
+        number: default(:number, client),
+        date: default(:date, client)
+      })
 
-  defp default(:holidays),
-    do: Holidays.holidays(default(:locale), default(:start_date), default(:end_date))
+  defp default(:number, _client), do: 1
+  defp default(:date, _client), do: Date.end_of_month(Date.utc_today())
+  defp default(:start_date, _client), do: Date.beginning_of_month(Date.utc_today())
+  defp default(:end_date, _client), do: Date.end_of_month(Date.utc_today())
+  defp default(:days_off_count, _client), do: 0
+  defp default(:possible_holidays, client), do: default(:holidays, client)
+
+  defp default(:holidays, client),
+    do:
+      Holidays.holidays(
+        default(:locale, client),
+        default(:start_date, client),
+        default(:end_date, client)
+      )
+
+  defp default(key, client), do: client[key]
+
+  defp default(key), do: get_in(@clients, [@default_client_key, key])
 
   defp safe_get_attr(changeset, attrs, field_name) do
     Map.get(attrs, to_string(field_name), safe_get_field(changeset, field_name))

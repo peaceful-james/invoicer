@@ -3,6 +3,8 @@ defmodule InvoicerPdf do
   Documentation for `InvoicerPdf`.
   """
 
+  alias InvoicerPdf.OutputName
+
   @default_opts [
     print_to_pdf: %{
       marginTop: 0.0,
@@ -62,9 +64,7 @@ defmodule InvoicerPdf do
   Returns the full path for a generated pdf using the given name
   """
   def output_path(name) do
-    base_path = "/home/docker/invoicer"
-    dir_name = Application.get_env(:invoicer_pdf, :output_dir_name)
-    Path.join([base_path, dir_name, "#{name}.pdf"])
+    Path.join([OutputName.output_dir(), "#{name}.pdf"])
   end
 
   defp generic_map_get(map, atom_key, default \\ nil) do

@@ -11,6 +11,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    networks:
+      - default
     env_file:
       - .env
     volumes:
@@ -22,3 +24,8 @@ services:
       - ./apps/invoicer_html/test:/home/docker/invoicer/apps/invoicer_html/test:ro
       - ./apps/invoicer_html/assets/tailwind.config.js:/home/docker/invoicer/apps/invoicer_html/assets/tailwind.config.js:ro
       - ./apps/invoicer_html/assets/static/images:/home/docker/invoicer/apps/invoicer_html/assets/static/images:ro
+
+networks:
+  default:
+    external:
+      name: my-network

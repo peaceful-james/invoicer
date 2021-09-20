@@ -10,6 +10,7 @@ mix compile
 cp .env.sample .env
 cp apps/invoicer_pdf/lib/invoicer_pdf/client_list.sample.ex apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex
 docker-compose build
+docker network create my-network --subnet 172.24.24.0/24 # to avoid openvpn route collision https://stackoverflow.com/questions/45692255/how-make-openvpn-work-with-docker
 ```
 
 You can edit `.env` to contain your personal/company details.

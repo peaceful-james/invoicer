@@ -42,7 +42,7 @@ docker-compose up
 
 Now visit `http://localhost:4000`, fill in the form and press the button.
 
-The default form values should save a file in `generated_pdfs/test.pdf`.
+The default form values should save a file in `generated_pdfs/`.
 
 ### Disclaimer
 

@@ -9,18 +9,22 @@ mix deps.compile
 mix compile
 cp .env.sample .env
 cp apps/invoicer_pdf/lib/invoicer_pdf/client_list.sample.ex apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex
-docker-compose build
-docker network create my-network --subnet 172.24.24.0/24 # to avoid openvpn route collision https://stackoverflow.com/questions/45692255/how-make-openvpn-work-with-docker
 ```
 
 Edit the first line of `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to this:
+Edit `.env` to contain your personal/company details.
+Edit `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to contain your client(s) details.
 
 ```
 defmodule InvoicerPdf.ClientList do
 ```
 
-Edit `.env` to contain your personal/company details.
-Edit `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to contain your client(s) details.
+Then finish setting up:
+
+```
+docker-compose build
+docker network create my-network --subnet 172.24.24.0/24 # to avoid openvpn route collision https://stackoverflow.com/questions/45692255/how-make-openvpn-work-with-docker
+```
 
 You can also provide your own custom logo:
 

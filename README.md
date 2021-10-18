@@ -12,12 +12,15 @@ cp apps/invoicer_pdf/lib/invoicer_pdf/client_list.sample.ex apps/invoicer_pdf/li
 ```
 
 Edit the first line of `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to this:
-Edit `.env` to contain your personal/company details.
-Edit `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to contain your client(s) details.
 
 ```
 defmodule InvoicerPdf.ClientList do
 ```
+
+Edit `.env` to contain your personal/company details.
+
+Edit `apps/invoicer_pdf/lib/invoicer_pdf/client_list.ex` to contain your client(s) details.
+
 
 Then finish setting up:
 

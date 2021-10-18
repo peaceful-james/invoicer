@@ -65,9 +65,15 @@
       </div>
 
       <div>
-        <%=  label f, :days_rate, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
-        <%=  number_input f, :days_rate, step: 0.01, min: 0 %>
-        <%=  error_tag f, :days_rate %>
+        <%=  label f, :rate_type, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  select f, :rate_type, InvoicerPdf.Rates.rate_types() %>
+        <%=  error_tag f, :rate_type %>
+      </div>
+
+      <div>
+        <%=  label f, :rate_amount, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <%=  number_input f, :rate_amount, step: 0.01, min: 0 %>
+        <%=  error_tag f, :rate_amount %>
       </div>
 
       <div>

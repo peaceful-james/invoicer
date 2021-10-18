@@ -76,13 +76,13 @@ InvoicerPdf.create(%{number: 1, date: "2021-05-17", services: ["something", "job
 or (this is my favourite)
 
 ```elixir
-%{number: 1, start_date: ~D[2021-12-01], end_date: ~D[2021-12-31], days_rate: 100.00} |> InvoicerPdf.create()
+%{number: 1, start_date: ~D[2021-12-01], end_date: ~D[2021-12-31], rate_amount: 100.00, rate_type: :day} |> InvoicerPdf.create()
 ```
 
 or
 
 ```elixir
-%{number: 1, start_date: ~D[2021-12-01], end_date: ~D[2021-12-31], days_off_count: 2, days_rate: 100.00, currency_symbol: "$"} |> InvoicerPdf.create()
+%{number: 1, start_date: ~D[2021-12-01], end_date: ~D[2021-12-31], days_off_count: 2, rate_amount: 100.00, rate_type: :month, currency_symbol: "$"} |> InvoicerPdf.create()
 ```
 
 This function:
@@ -95,5 +95,7 @@ actually hits the `:invoicer_html` endpoint to get the invoice HTML which is the
 
 
 ### TODOs and dreams
+- change naming to use dates instead of just month names
+- use Money instead of float
 - simplify the form/statement duplication. Try to DRY and centralize schema.
 - add ability to "save" invoice for future use

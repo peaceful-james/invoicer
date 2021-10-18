@@ -1,7 +1,7 @@
 defmodule InvoicerPdf.Form do
   use Ecto.Schema
   import Ecto.Changeset
-  alias InvoicerPdf.{Clients, Holidays, OutputName, WorkingDays}
+  alias InvoicerPdf.{Clients, Holidays, OutputName, Rates, WorkingDays}
 
   @clients Clients.clients()
   @default_client_key Clients.default_client_key()
@@ -16,7 +16,8 @@ defmodule InvoicerPdf.Form do
     :date,
     :start_date,
     :end_date,
-    :days_rate,
+    :rate_type,
+    :rate_amount,
     :days_off_count,
     :currency_symbol,
     :possible_holidays,
@@ -33,7 +34,8 @@ defmodule InvoicerPdf.Form do
     field(:date, :date)
     field(:start_date, :date)
     field(:end_date, :date)
-    field(:days_rate, :float)
+    field(:rate_type, Ecto.Enum, values: Rates.rate_types())
+    field(:rate_amount, :string)
     field(:days_off_count, :integer)
     field(:currency_symbol, Ecto.Enum, values: [:"€", :"$", :"£"])
     field(:possible_holidays, {:array, :map})
@@ -52,6 +54,7 @@ defmodule InvoicerPdf.Form do
           changed_form
       end
     end)
+    |> set_output_name()
     |> cast_holidays(attrs)
   end
 
@@ -75,7 +78,8 @@ defmodule InvoicerPdf.Form do
       OutputName.output_name(%{
         client_key: default(:client_key, client),
         number: default(:number, client),
-        date: default(:date, client)
+        start_date: default(:start_date, client),
+        end_date: default(:end_date, client)
       })
 
   defp default(:number, _client), do: 1
@@ -118,14 +122,20 @@ defmodule InvoicerPdf.Form do
     date = safe_get_field(changeset, :date)
     start_date = safe_get_field(changeset, :start_date)
     end_date = safe_get_field(changeset, :end_date)
-    days_rate = safe_get_field(changeset, :days_rate)
+    rate_type = safe_get_field(changeset, :rate_type)
+    rate_amount = safe_get_field(changeset, :rate_amount)
     days_off_count = safe_get_field(changeset, :days_off_count)
     currency_symbol = safe_get_field(changeset, :currency_symbol)
     holidays = safe_get_field(changeset, :holidays)
-
     ideal_days_count = WorkingDays.calculate_days_count(start_date, end_date, holidays)
     days_count = ideal_days_count - days_off_count
-    days_rate_string = days_rate |> :erlang.float_to_binary(decimals: 2)
+
+    charge =
+      Rates.total(rate_type, rate_amount, %{
+        days_count: days_count,
+        start_date: start_date,
+        end_date: end_date
+      })
 
     maybe_days_off_string =
       cond do
@@ -147,10 +157,22 @@ defmodule InvoicerPdf.Form do
       recipient_address: recipient_address,
       currency_symbol: currency_symbol,
       services: [
-        "#{days_count} days worked between #{start_date} and #{end_date} (inclusive)#{maybe_days_off_string} at #{currency_symbol} #{days_rate_string} per day, excluding weekends#{Holidays.holidays_string(holidays)}."
+        "#{days_count} days worked between #{start_date} and #{end_date} (inclusive)#{maybe_days_off_string} at #{currency_symbol} #{rate_amount} per #{rate_type}, excluding weekends#{Holidays.holidays_string(holidays)}."
       ],
-      charges: [to_string(days_count * days_rate)]
+      charges: [to_string(charge)]
     }
+  end
+
+  defp set_output_name(changeset) do
+    output_name =
+      OutputName.output_name(%{
+        client_key: get_field(changeset, :client_key),
+        number: get_field(changeset, :number),
+        start_date: get_field(changeset, :start_date),
+        end_date: get_field(changeset, :end_date)
+      })
+
+    put_change(changeset, :output_name, output_name)
   end
 
   defp cast_holidays(changeset, attrs) do

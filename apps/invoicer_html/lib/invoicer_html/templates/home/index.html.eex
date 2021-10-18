@@ -53,10 +53,18 @@
                 </div>
 
                 <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                    <%=  label f, :days_rate, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <%=  label f, :rate_type, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
                     <div class="mt-1 sm:mt-0 sm:col-span-2">
-                        <%=  number_input f, :days_rate, step: 0.01, min: 0, value: @days_rate %>
-                        <%=  error_tag f, :days_rate %>
+                        <%=  select f, :rate_type, InvoicerPdf.Rates.rate_types(), value: @rate_type %>
+                        <%=  error_tag f, :rate_type %>
+                    </div>
+                </div>
+
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                    <%=  label f, :rate_amount, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                        <%=  number_input f, :rate_amount, step: 0.01, min: 0, value: @rate_amount %>
+                        <%=  error_tag f, :rate_amount %>
                     </div>
                 </div>
 

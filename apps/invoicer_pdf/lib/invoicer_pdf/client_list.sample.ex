@@ -4,14 +4,16 @@ defmodule InvoicerPdf.ClientListSample do
       pizza_people: %{
         recipient_name: "Super Pizza Palace",
         recipient_address: "Dough St, Berlin",
-        days_rate: 100.00,
+        rate_type: :day,
+        rate_amount: Decimal.new("100.00"),
         locale: :de,
         currency_symbol: :"€"
       },
       clown_factory: %{
         recipient_name: "Clown Factory",
         recipient_address: "The Circus, New York",
-        days_rate: 130.00,
+        rate_type: :month,
+        rate_amount: Decimal.new("4000.00"),
         locale: :us,
         currency_symbol: :"$"
       }

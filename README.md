@@ -95,10 +95,3 @@ InvoicerPdf.create()
 ```
 
 actually hits the `:invoicer_html` endpoint to get the invoice HTML which is then converted into a PDF using ChromicPdf.
-
-
-### TODOs and dreams
-- change naming to use dates instead of just month names
-- use Money instead of float
-- simplify the form/statement duplication. Try to DRY and centralize schema.
-- add ability to "save" invoice for future use

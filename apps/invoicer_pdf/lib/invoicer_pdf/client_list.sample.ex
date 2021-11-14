@@ -16,6 +16,14 @@ defmodule InvoicerPdf.ClientListSample do
         rate_amount: Decimal.new("4000.00"),
         locale: :us,
         currency_symbol: :"$"
+      },
+      dragon_grooming: %{
+        recipient_name: "Dragon Grooming Inc.",
+        recipient_address: "RPG Lane, Winterhold",
+        rate_type: :semimonth,
+        rate_amount: Decimal.new("2000.00"),
+        locale: :ie,
+        currency_symbol: :"€"
       }
     }
   end

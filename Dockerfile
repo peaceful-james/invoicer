@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.12.1-erlang-23.2.1-ubuntu-focal-20201008
+FROM hexpm/elixir:1.13.3-erlang-24.1.7-ubuntu-focal-20201008
 
 RUN apt-get update && apt-get install -y sudo curl
 # https://stackoverflow.com/questions/44331836/apt-get-install-tzdata-noninteractive

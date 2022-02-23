@@ -13,6 +13,10 @@ defmodule InvoicerPdf.OutputName do
         start_date: start_date,
         end_date: end_date
       }) do
+    IO.inspect(client_key, label: "client_key")
+    IO.inspect(number, label: "number")
+    IO.inspect(start_date, label: "start_date")
+    IO.inspect(end_date, label: "end_date")
     dir_name = to_string(client_key)
 
     file_name =
@@ -28,7 +32,7 @@ defmodule InvoicerPdf.OutputName do
   end
 
   def format_number(number) when is_number(number) do
-    :io_lib.format("~6.8.0B", [number])
+    :io_lib.format("~6.10.0B", [number])
   end
 
   def format_number(_), do: "0"

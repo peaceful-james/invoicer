@@ -13,10 +13,6 @@ defmodule InvoicerPdf.OutputName do
         start_date: start_date,
         end_date: end_date
       }) do
-    IO.inspect(client_key, label: "client_key")
-    IO.inspect(number, label: "number")
-    IO.inspect(start_date, label: "start_date")
-    IO.inspect(end_date, label: "end_date")
     dir_name = to_string(client_key)
 
     file_name =

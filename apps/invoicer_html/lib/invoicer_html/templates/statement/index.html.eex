@@ -24,6 +24,9 @@
                 <div class="ml-2">
                     <%=  @recipient_address %>
                 </div>
+                <div class="ml-2">
+                    Tax ID: <%=  @recipient_tax_id %>
+                </div>
                 <br/>
             </div>
         </div>

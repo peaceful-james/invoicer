@@ -59,7 +59,7 @@ The form runs a function that actually hits another endpoint (called `statement`
 Here is an example URL of this "pre-pdf html" endpoint:
 
 ```
-http://localhost:4000/statement?number=1&currency_symbol=$&date=2021-05-10&recipient_name=Client%20Name&recipient_address=Client%20Address&services[]=21%20days%20worked%20between%202021-12-01%20and%202021-12-31%20(inclusive)%20with%202%20days%20off%20at%20$%20100.00%20per%20day,%20excluding%20weekends%20and%20public%20holidays%20(2021-12-25).&charges[]=7035.0
+http://localhost:4000/statement?number=1&currency_symbol=$&date=2021-05-10&recipient_name=Client%20Name&recipient_address=Client%20Address&recipient_tax_id=123456789&services[]=21%20days%20worked%20between%202021-12-01%20and%202021-12-31%20(inclusive)%20with%202%20days%20off%20at%20$%20100.00%20per%20day,%20excluding%20weekends%20and%20public%20holidays%20(2021-12-25).&charges[]=7035.0
 ```
 
 You can attach a new `iex` shell to the running server using this:

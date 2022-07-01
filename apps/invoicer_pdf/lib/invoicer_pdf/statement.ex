@@ -7,6 +7,7 @@ defmodule InvoicerPdf.Statement do
     field(:date, :date)
     field(:recipient_name, :string)
     field(:recipient_address, :string)
+    field(:recipient_tax_id, :string)
     field(:services, {:array, :string})
     field(:charges, {:array, :decimal})
     field(:currency_symbol, Ecto.Enum, values: [:"€", :"$", :"£"])
@@ -18,6 +19,7 @@ defmodule InvoicerPdf.Statement do
       :date,
       :recipient_name,
       :recipient_address,
+      :recipient_tax_id,
       :services,
       :charges,
       :currency_symbol

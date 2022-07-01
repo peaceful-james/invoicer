@@ -23,6 +23,7 @@ defmodule InvoicerPdf do
     date = params |> generic_map_get(:date, default_date())
     recipient_name = params |> generic_map_get(:recipient_name)
     recipient_address = params |> generic_map_get(:recipient_address)
+    recipient_tax_id = params |> generic_map_get(:recipient_tax_id)
     services = params |> generic_map_get(:services, [])
     charges = params |> generic_map_get(:charges, [])
     currency_symbol = params |> generic_map_get(:currency_symbol)
@@ -32,6 +33,7 @@ defmodule InvoicerPdf do
     date_param = "date=#{date}"
     recipient_name_param = "recipient_name=#{recipient_name}"
     recipient_address_param = "recipient_address=#{recipient_address}"
+    recipient_tax_id_param = "recipient_tax_id=#{recipient_tax_id}"
     currency_symbol_param = "currency_symbol=#{currency_symbol}"
     services_param = services |> Enum.map(&"services[]=#{&1}") |> Enum.join("&")
     charges_param = charges |> Enum.map(&"charges[]=#{&1}") |> Enum.join("&")
@@ -44,6 +46,7 @@ defmodule InvoicerPdf do
            date_param,
            recipient_name_param,
            recipient_address_param,
+           recipient_tax_id_param,
            services_param,
            charges_param
          ],

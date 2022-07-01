@@ -8,6 +8,7 @@
       number: @statement_params.number,
       recipient_name: @statement_params.recipient_name,
       recipient_address: @statement_params.recipient_address,
+      recipient_tax_id: @statement_params.recipient_tax_id,
       date: @statement_params.date,
       services: @statement_params.services,
       charges: @statement_params.charges,
@@ -50,6 +51,12 @@
         <%=  label f, :recipient_address, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
         <%=  text_input f, :recipient_address %>
         <%=  error_tag f, :recipient_address %>
+      </div>
+
+      <div>
+        <%=  label f, :recipient_tax_id, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <%=  text_input f, :recipient_tax_id %>
+        <%=  error_tag f, :recipient_tax_id %>
       </div>
 
       <div>

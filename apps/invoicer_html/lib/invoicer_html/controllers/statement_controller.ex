@@ -10,6 +10,7 @@ defmodule InvoicerHtml.StatementController do
         "date",
         "recipient_name",
         "recipient_address",
+        "recipient_tax_id",
         "services",
         "charges"
       ])

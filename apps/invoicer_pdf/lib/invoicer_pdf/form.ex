@@ -13,6 +13,7 @@ defmodule InvoicerPdf.Form do
     :number,
     :recipient_name,
     :recipient_address,
+    :recipient_tax_id,
     :date,
     :start_date,
     :end_date,
@@ -31,6 +32,7 @@ defmodule InvoicerPdf.Form do
     field(:number, :integer)
     field(:recipient_name, :string)
     field(:recipient_address, :string)
+    field(:recipient_tax_id, :string)
     field(:date, :date)
     field(:start_date, :date)
     field(:end_date, :date)
@@ -119,6 +121,7 @@ defmodule InvoicerPdf.Form do
     number = safe_get_field(changeset, :number)
     recipient_name = safe_get_field(changeset, :recipient_name)
     recipient_address = safe_get_field(changeset, :recipient_address)
+    recipient_tax_id = safe_get_field(changeset, :recipient_tax_id)
     date = safe_get_field(changeset, :date)
     start_date = safe_get_field(changeset, :start_date)
     end_date = safe_get_field(changeset, :end_date)
@@ -155,6 +158,7 @@ defmodule InvoicerPdf.Form do
       number: number,
       recipient_name: recipient_name,
       recipient_address: recipient_address,
+      recipient_tax_id: recipient_tax_id,
       currency_symbol: currency_symbol,
       services: [
         "#{days_count} days worked between #{start_date} and #{end_date} (inclusive)#{maybe_days_off_string} at #{currency_symbol} #{rate_amount} per #{rate_type}, excluding weekends#{Holidays.holidays_string(holidays)}."

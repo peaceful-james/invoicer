@@ -27,5 +27,4 @@ services:
 
 networks:
   default:
-    external:
-      name: my-network
+    name: my-network

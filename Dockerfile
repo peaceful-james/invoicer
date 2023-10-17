@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.13.3-erlang-24.1.7-ubuntu-xenial-20210114
+FROM hexpm/elixir:1.13.3-erlang-24.1.7-ubuntu-focal-20210325
 
 RUN apt-get update && apt-get install -y sudo curl
 # https://stackoverflow.com/questions/44331836/apt-get-install-tzdata-noninteractive
@@ -16,6 +16,7 @@ WORKDIR /home/docker/invoicer
 
 RUN sudo apt install -y git inotify-tools build-essential
 RUN sudo apt install -y nodejs
+RUN sudo apt install -y libnss3 libu2f-udev
 
 RUN curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN sudo apt-get install -y ./google-chrome-stable_current_amd64.deb

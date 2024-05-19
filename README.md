@@ -1,6 +1,6 @@
-⚠️ This code was written when LiveView and I were both still figuring stuff out. It is functional and the architecture is OK (for what it is) but it uses many old-school techniques that have been supplanted by better techniques. e.g. there was no `~H` sigil when I wrote this.
+⚠️ This code was written when Phoenix/LiveView and I were both still figuring stuff out. It is functional and the architecture is OK (for what it is) but it uses many old-school techniques that have been supplanted by better techniques. e.g. there was no `~H` sigil when I wrote this.
 
-⚠️⚠️Do not use this project as an exmample of how to write LiveView.
+⚠️⚠️Do not use this project as an example of how to write Phoenix/LiveView.
 
 # Invoicer
 

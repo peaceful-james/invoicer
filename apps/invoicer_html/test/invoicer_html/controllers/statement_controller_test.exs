@@ -19,7 +19,7 @@ defmodule InvoicerHtml.StatementControllerTest do
 
       assert json_response(conn, 200) == %{
                "result" => "ok",
-               "output" => "/home/docker/invoicer/generated_pdfs/page_controller_test.pdf"
+               "output" => InvoicerPdf.app_dir() <> "generated_pdfs/page_controller_test.pdf"
              }
     end
   end

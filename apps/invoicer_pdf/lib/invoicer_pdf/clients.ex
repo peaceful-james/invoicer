@@ -1,7 +1,7 @@
 defmodule InvoicerPdf.Clients do
   @clients InvoicerPdf.ClientList.client_list()
   @client_keys Map.keys(@clients)
-  @default_client_key List.first(@client_keys)
+  @default_client_key :recycla
   @default_client Map.get(@clients, @default_client_key)
 
   @doc """

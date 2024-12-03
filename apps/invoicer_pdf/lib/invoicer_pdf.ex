@@ -14,6 +14,11 @@ defmodule InvoicerPdf do
     }
   ]
 
+  def app_dir do
+    # "/home/docker/invoicer/"
+    "./"
+  end
+
   def print_to_pdf(input, opts \\ []) do
     ChromicPDF.print_to_pdf(input, Keyword.merge(opts, @default_opts))
   end

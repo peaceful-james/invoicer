@@ -22,7 +22,7 @@ defmodule InvoicerHtml.Home do
       ) do
     output = InvoicerPdf.output_path(output_name)
     :ok = InvoicerPdf.print_to_pdf({:url, socket.assigns.statement_url}, output: output)
-    real_output = String.replace(output, "/home/docker/invoicer/", "")
+    real_output = String.replace(output, InvoicerPdf.app_dir(), "")
 
     socket =
       socket

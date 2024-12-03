@@ -1,6 +1,6 @@
 defmodule InvoicerPdf.OutputName do
   @output_dir Path.join([
-                "/home/docker/invoicer",
+                InvoicerPdf.app_dir(),
                 Application.get_env(:invoicer_pdf, :output_dir_name, "generated_pdfs")
               ])
   @separator "_"

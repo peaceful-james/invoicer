@@ -38,13 +38,13 @@ RUN ["mix", "deps.get"]
 RUN ["mix", "deps.compile"]
 
 # copy the _build for faster builds
-COPY _build ./_build
-COPY apps/invoicer_pdf/lib ./apps/invoicer_pdf/lib
-COPY apps/invoicer_pdf/test ./apps/invoicer_pdf/test
-COPY apps/invoicer_html/lib ./apps/invoicer_html/lib
-COPY apps/invoicer_html/test ./apps/invoicer_html/test
-COPY apps/invoicer_html/assets ./apps/invoicer_html/assets
-COPY apps/invoicer_html/priv ./apps/invoicer_html/priv
+# COPY _build _build
+COPY apps/invoicer_pdf/lib apps/invoicer_pdf/lib
+COPY apps/invoicer_pdf/test apps/invoicer_pdf/test
+COPY apps/invoicer_html/lib apps/invoicer_html/lib
+COPY apps/invoicer_html/test apps/invoicer_html/test
+COPY apps/invoicer_html/assets apps/invoicer_html/assets
+COPY apps/invoicer_html/priv apps/invoicer_html/priv
 
 RUN sudo chown -R docker:docker /home/docker
 WORKDIR /home/docker/invoicer/apps/invoicer_html/assets
@@ -54,7 +54,7 @@ WORKDIR /home/docker/invoicer
 RUN sudo chown -R docker:docker /home/docker
 RUN ["mix", "compile"]
 
-COPY entrypoint.sh ./entrypoint.sh
-COPY .iex.exs .iex.exs
+COPY entrypoint.sh ./
+COPY .iex.exs ./
 
 ENTRYPOINT ["/bin/bash", "entrypoint.sh"]

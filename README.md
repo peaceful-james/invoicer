@@ -1,5 +1,10 @@
 # Invoicer
 
+⚠ Do not use this project! ⚠
+
+This project is outdated to the point of being nearly broken.
+I am hoping to update it when I get some time off.
+
 ### First-time setup
 
 ```shell
